@@ -1,0 +1,216 @@
+<!DOCTYPE html> <!-- Ensure Standards Mode -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Teeth Pizza</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #0c0c0c; /* Dark background for glow effect */
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+
+        /* Full-screen container for the main pizza image */
+        .pizza-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Ensure no elements go outside the viewport */
+        }
+
+        /* Main pizza image styling */
+        .main-pizza {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure the image covers the entire viewport */
+            z-index: 1;
+        }
+
+        /* Styling for each word */
+        .word {
+            position: absolute;
+            font-family: 'Press Start 2P', cursive; /* 80's style font */
+            font-size: 5vw; /* Responsive font size */
+            color: #fff; /* White font color */
+            text-shadow: 0 0 10px #f0f, 0 0 20px #f0f, 0 0 30px #f0f, 0 0 40px #f0f, 0 0 50px #f0f, 0 0 60px #f0f, 0 0 70px #f0f; /* Neon glow effect */
+            z-index: 3; /* Above the image */
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Smooth stop on hover */
+        }
+
+        /* Styling for lightning bolts */
+        .lightning-bolt {
+            position: absolute;
+            width: 80px; /* Width of the bolt */
+            height: 10px; /* Height of the bolt */
+            background-color: yellow; /* Bolt color */
+            box-shadow: 0 0 10px yellow; /* Glow effect */
+            transform: rotate(45deg); /* Initial rotation */
+            opacity: 0; /* Initially hidden */
+            transition: opacity 0.3s, transform 0.3s; /* Transition effects */
+            animation: bolt 2s infinite ease-in-out;
+            z-index: 2; /* Ensure bolts are on top of the image */
+        }
+
+        /* Animation for the lightning bolts */
+        @keyframes bolt {
+            0%, 100% {
+                opacity: 0; /* Invisible at start and end */
+                transform: scale(0) rotate(45deg); /* Start and end size */
+            }
+            50% {
+                opacity: 1; /* Fully visible in the middle */
+                transform: scale(1) rotate(45deg); /* Normal size */
+            }
+        }
+
+        /* Animation for words bouncing slower and smoother */
+        @keyframes smoothBounce {
+            0% {
+                transform: translate(0, 0);
+            }
+            20% {
+                transform: translate(200px, 300px);
+            }
+            40% {
+                transform: translate(-300px, 200px);
+            }
+            60% {
+                transform: translate(300px, -200px);
+            }
+            80% {
+                transform: translate(-200px, -300px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* Hover effect */
+        .word:hover {
+            animation-play-state: paused; /* Stop bouncing on hover */
+            transform: scale(1.1); /* Slightly increase size on hover */
+        }
+    </style>
+
+    <!-- Link to Google Fonts for 80's style font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Container for the main pizza image -->
+    <div class="pizza-container">
+        <!-- Main pizza image (replace the src with your hosted image link) -->
+        <img src="https://cdn.discordapp.com/attachments/1094763064420733058/1288173646292062320/acapulco.lypse_make_a_website_home_page_image_in_a_positive_ton_46806eb1-ac04-4845-a05b-ea6b602a059b.png?ex=66f438b2&is=66f2e732&hm=d45421384a174f798c1efec965516c7ac08ad7b71abbc1a4300f0274aa870623&" id="mainPizza">
+
+        <!-- Separate words for the title, completely separated and positioned randomly -->
+        <div class="word" id="cedar" style="left: 10%; top: 10%;">Cedar</div>
+        <div class="word" id="teeth" style="left: 70%; top: 30%;">Teeth</div>
+        <div class="word" id="pizza" style="left: 40%; top: 60%;">Pizza</div>
+
+        <!-- Add more lightning bolts -->
+        <div class="lightning-bolt" id="bolt1"></div>
+        <div class="lightning-bolt" id="bolt2"></div>
+        <div class="lightning-bolt" id="bolt3"></div>
+        <div class="lightning-bolt" id="bolt4"></div>
+        <div class="lightning-bolt" id="bolt5"></div>
+        <div class="lightning-bolt" id="bolt6"></div>
+        <div class="lightning-bolt" id="bolt7"></div>
+        <div class="lightning-bolt" id="bolt8"></div>
+        <div class="lightning-bolt" id="bolt9"></div>
+        <div class="lightning-bolt" id="bolt10"></div>
+        <div class="lightning-bolt" id="bolt11"></div>
+        <div class="lightning-bolt" id="bolt12"></div>
+        <div class="lightning-bolt" id="bolt13"></div>
+        <div class="lightning-bolt" id="bolt14"></div>
+        <div class="lightning-bolt" id="bolt15"></div>
+    </div>
+
+    <script>
+        // References to the words and lightning bolts
+        const words = [
+            document.getElementById('cedar'),
+            document.getElementById('teeth'),
+            document.getElementById('pizza')
+        ];
+        const lightningBolts = [
+            document.getElementById('bolt1'),
+            document.getElementById('bolt2'),
+            document.getElementById('bolt3'),
+            document.getElementById('bolt4'),
+            document.getElementById('bolt5'),
+            document.getElementById('bolt6'),
+            document.getElementById('bolt7'),
+            document.getElementById('bolt8'),
+            document.getElementById('bolt9'),
+            document.getElementById('bolt10'),
+            document.getElementById('bolt11'),
+            document.getElementById('bolt12'),
+            document.getElementById('bolt13'),
+            document.getElementById('bolt14'),
+            document.getElementById('bolt15')
+        ];
+
+        // Function to make each word bounce independently with slower and smoother animation
+        function smoothBounceWords() {
+            words.forEach((word, index) => {
+                word.style.animation = `smoothBounce ${12 + index * 3}s infinite ease-in-out`; // Even slower bounce duration for each word
+                word.style.animationDelay = `${index}s`; // Adding delay to make movement unique
+            });
+        }
+
+        // Function to position lightning bolts randomly around the image
+        function positionLightningBolts() {
+            lightningBolts.forEach(bolt => {
+                const xOffset = Math.random() * window.innerWidth; // Random horizontal position
+                const yOffset = Math.random() * window.innerHeight; // Random vertical position
+                const rotation = Math.random() * 360; // Random rotation
+
+                // Position and rotate the bolts
+                bolt.style.left = `${xOffset}px`;
+                bolt.style.top = `${yOffset}px`; // Positioned randomly on the screen
+                bolt.style.transform = `rotate(${rotation}deg)`;
+                bolt.style.opacity = 1; // Make bolts visible
+            });
+        }
+
+        // Function to pause animation and make words clickable
+        words.forEach(word => {
+            word.addEventListener('mouseover', () => {
+                word.style.animationPlayState = 'paused'; // Pause animation
+            });
+            word.addEventListener('mouseleave', () => {
+                word.style.animationPlayState = 'running'; // Resume animation
+            });
+        });
+
+        // Click event to open different links for each word
+        document.getElementById('cedar').addEventListener('click', () => {
+            window.location.href = 'https://www.facebook.com/thecedarteeth'; // Replace with actual link
+        });
+        document.getElementById('teeth').addEventListener('click', () => {
+            window.location.href = 'https://www.facebook.com/thecedarteeth'; // Replace with actual link
+        });
+        document.getElementById('pizza').addEventListener('click', () => {
+            window.location.href = 'https://www.facebook.com/thecedarteeth'; // Replace with actual link
+        });
+
+        // Start smooth bouncing of words independently
+        smoothBounceWords();
+        // Initial positioning of lightning bolts
+        positionLightningBolts();
+    </script>
+
+</body>
+</html>
